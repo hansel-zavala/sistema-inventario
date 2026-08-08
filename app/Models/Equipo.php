@@ -22,6 +22,7 @@ class Equipo extends Model
         'fecha_adquisicion',
         'estado',
         'observaciones',
+        'deleted_by',
     ];
 
     protected $casts = [
@@ -42,5 +43,20 @@ class Equipo extends Model
     public function empleado()
     {
         return $this->belongsTo(Empleado::class);
+    }
+
+    public function movimientos()
+    {
+        return $this->hasMany(Movimiento::class);
+    }
+
+    public function eliminadoPor()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
+    }
+
+    public function ordenesTaller()
+    {
+        return $this->hasMany(OrdenTaller::class);
     }
 }
