@@ -5,17 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Categoria extends Model
+class Empleado extends Model
 {
     use HasFactory;
 
-    protected $table = 'categorias';
+    protected $table = 'empleados';
 
     protected $fillable = [
         'nombre',
-        'codigo',
-        'tipo',
-        'descripcion',
+        'cargo',
+        'departamento',
         'activo',
     ];
 

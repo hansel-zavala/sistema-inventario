@@ -20,4 +20,9 @@ class Ubicacion extends Model
     protected $casts = [
         'activo' => 'boolean',
     ];
+
+    public function equipos()
+    {
+        return $this->hasMany(Equipo::class);
+    }
 }
