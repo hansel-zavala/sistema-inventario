@@ -12,7 +12,9 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        //
+        $empleados = Empleado::orderBy('nombre')->paginate(10);
+
+        return view('empleados.index', compact('empleados'));
     }
 
     /**
@@ -20,7 +22,7 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
-        //
+        return view('empleados.create');
     }
 
     /**
@@ -28,7 +30,16 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:100',
+            'cargo' => 'nullable|string|max:100',
+            'departamento' => 'nullable|string|max:100',
+        ]);
+
+        Empleado::create($validated);
+
+        return redirect()->route('empleados.index')
+            ->with('success', 'Empleado creado correctamente.');
     }
 
     /**
@@ -44,7 +55,7 @@ class EmpleadoController extends Controller
      */
     public function edit(Empleado $empleado)
     {
-        //
+        return view('empleados.edit', compact('empleado'));
     }
 
     /**
@@ -52,7 +63,16 @@ class EmpleadoController extends Controller
      */
     public function update(Request $request, Empleado $empleado)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:100',
+            'cargo' => 'nullable|string|max:100',
+            'departamento' => 'nullable|string|max:100',
+        ]);
+
+        $empleado->update($validated);
+
+        return redirect()->route('empleados.index')
+            ->with('success', 'Empleado actualizado correctamente.');
     }
 
     /**
@@ -60,6 +80,9 @@ class EmpleadoController extends Controller
      */
     public function destroy(Empleado $empleado)
     {
-        //
+        $empleado->update(['activo' => false]);
+
+        return redirect()->route('empleados.index')
+            ->with('success', 'Empleado desactivado correctamente.');
     }
 }
