@@ -12,7 +12,9 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        //
+        $categorias = Categoria::orderBy('nombre')->paginate(10);
+
+        return view('categorias.index', compact('categorias'));
     }
 
     /**
@@ -20,7 +22,7 @@ class CategoriaController extends Controller
      */
     public function create()
     {
-        //
+        return view('categorias.create');
     }
 
     /**
@@ -28,13 +30,23 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:80',
+            'codigo' => 'required|string|max:50',
+            'tipo' => 'required|in:equipo,insumo',
+            'descripcion' => 'nullable|string',
+        ]);
+
+        Categoria::create($validated);
+
+        return redirect()->route('categorias.index')
+            ->with('success', 'Categoría creada correctamente.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Catalogo $catalogo)
+    public function show(Categoria $categoria)
     {
         //
     }
@@ -42,24 +54,37 @@ class CategoriaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Catalogo $catalogo)
+    public function edit(Categoria $categoria)
     {
-        //
+        return view('categorias.edit', compact('categoria'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Catalogo $catalogo)
+    public function update(Request $request, Categoria $categoria)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:80',
+            'codigo' => 'required|string|max:50',
+            'tipo' => 'required|in:equipo,insumo',
+            'descripcion' => 'nullable|string',
+        ]);
+
+        $categoria->update($validated);
+
+        return redirect()->route('categorias.index')
+            ->with('success', 'Categoría actualizada correctamente.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Catalogo $catalogo)
+    public function destroy(Categoria $categoria)
     {
-        //
+        $categoria->update(['activo' => false]);
+
+        return redirect()->route('categorias.index')
+            ->with('success', 'Categoría desactivada correctamente.');
     }
 }
