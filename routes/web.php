@@ -1,26 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\CatalogoController;
 
-Route::get('/', function () {
-    $dbStatus = [
-        'connected' => false,
-        'database' => null,
-        'error' => null
-    ];
+Route::view('/', 'welcome');
 
-    try {
-        DB::connection()->getPdo();
-        $dbStatus['connected'] = true;
-        $dbStatus['database'] = DB::connection()->getDatabaseName();
-    } catch (\Exception $e) {
-        $dbStatus['error'] = $e->getMessage();
-    }
+Route::view('dashboard', 'dashboard')
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
-    return view('welcome', compact('dbStatus'));
-});
+Route::view('profile', 'profile')
+    ->middleware(['auth'])
+    ->name('profile');
 
-Route::resource('catalogos', CatalogoController::class);
-
+require __DIR__.'/auth.php';
