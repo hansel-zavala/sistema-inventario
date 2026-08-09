@@ -12,7 +12,9 @@ class UbicacionController extends Controller
      */
     public function index()
     {
-        //
+        $ubicaciones = Ubicacion::orderBy('nombre')->paginate(10);
+
+        return view('ubicaciones.index', compact('ubicaciones'));
     }
 
     /**
@@ -20,7 +22,7 @@ class UbicacionController extends Controller
      */
     public function create()
     {
-        //
+        return view('ubicaciones.create');
     }
 
     /**
@@ -28,23 +30,20 @@ class UbicacionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:100',
+            'descripcion' => 'nullable|string|max:255',
+        ]);
+
+        Ubicacion::create($validated);
+
+        return redirect()->route('ubicaciones.index')
+            ->with('success', 'Ubicación creada correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Ubicacion $ubicacion)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Ubicacion $ubicacion)
     {
-        //
+        return view('ubicaciones.edit', compact('ubicacion'));
     }
 
     /**
@@ -52,14 +51,22 @@ class UbicacionController extends Controller
      */
     public function update(Request $request, Ubicacion $ubicacion)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:100',
+            'descripcion' => 'nullable|string|max:255',
+        ]);
+        
+        $ubicacion->update($validated);
+
+        return redirect()->route('ubicaciones.index')
+            ->with('success', 'Ubicación actualizada correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Ubicacion $ubicacion)
     {
-        //
+        $ubicacion->update(['activo' => false]);
+
+        return redirect()->route('ubicaciones.index')
+            ->with('success', 'Ubicación desactivada correctamente.');
     }
 }
