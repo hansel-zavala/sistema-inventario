@@ -16,6 +16,11 @@
             </a>
         @endif
 
+        <a href="{{ route('movimientos.index') }}"
+            class="flex items-center px-4 py-2 text-sm {{ request()->routeIs('movimientos.*') ? 'bg-gray-900 text-white' : 'hover:bg-gray-700' }}">
+            Movimientos
+        </a>
+
         <a href="{{ route('categorias.index') }}"
            class="flex items-center px-4 py-2 text-sm {{ request()->routeIs('categorias.*') ? 'bg-gray-900 text-white' : 'hover:bg-gray-700' }}">
             Categorías
