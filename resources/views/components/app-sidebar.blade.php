@@ -59,8 +59,8 @@
                 Administración
             </div>
 
-            <a href="#"
-               class="flex items-center px-4 py-2 text-sm hover:bg-gray-700">
+            <a href="{{ route('users.index') }}"
+            class="flex items-center px-4 py-2 text-sm {{ request()->routeIs('users.*') ? 'bg-gray-900 text-white' : 'hover:bg-gray-700' }}">
                 Usuarios
             </a>
 

@@ -9,6 +9,7 @@ use App\Http\Controllers\MovimientoController;
 use App\Http\Controllers\InsumoHerramientaController;
 use App\Http\Controllers\OrdenTallerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 
 Route::middleware(['auth'])->group(function () {
 
@@ -17,6 +18,10 @@ Route::view('/', 'welcome');
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
 Route::view('profile', 'profile')->middleware(['auth'])->name('profile');
+
+Route::middleware(['auth', 'role:administrador'])->group(function () {
+    Route::resource('users', UserController::class)->except(['show']);
+});
 
 Route::resource('categorias', CategoriaController::class);
 Route::resource('ubicaciones', UbicacionController::class);
