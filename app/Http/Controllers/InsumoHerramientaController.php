@@ -7,6 +7,7 @@ use App\Models\MovimientoInsumo;
 use App\Models\Categoria;
 use App\Models\Ubicacion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InsumoHerramientaController extends Controller
 {
@@ -55,7 +56,7 @@ class InsumoHerramientaController extends Controller
                 'tipo' => 'entrada',
                 'cantidad' => $validated['cantidad_disponible'],
                 'motivo' => 'Registro inicial de inventario',
-                'usuario_id' => auth()->id(),
+                'usuario_id' => Auth::id(),
             ]);
         }
 
@@ -120,7 +121,7 @@ class InsumoHerramientaController extends Controller
             'tipo' => $validated['tipo'],
             'cantidad' => $validated['cantidad'],
             'motivo' => $validated['motivo'],
-            'usuario_id' => auth()->id(),
+            'usuario_id' => Auth::id(),
         ]);
 
         if ($validated['tipo'] === 'entrada') {

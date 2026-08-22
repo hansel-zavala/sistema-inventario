@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\OrdenTaller;
 use App\Models\Equipo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrdenTallerController extends Controller
 {
@@ -39,7 +40,7 @@ class OrdenTallerController extends Controller
         ]);
 
         $validated['estado'] = 'en_espera';
-        $validated['usuario_id'] = auth()->id();
+        $validated['usuario_id'] = Auth::id();
 
         $orden = OrdenTaller::create($validated);
 
@@ -84,7 +85,7 @@ class OrdenTallerController extends Controller
 
     public function destroy(OrdenTaller $ordenTaller)
     {
-        $ordenTaller->deleted_by = auth()->id();
+        $ordenTaller->deleted_by = Auth::id();
         $ordenTaller->save();
         $ordenTaller->delete(); // soft delete
 

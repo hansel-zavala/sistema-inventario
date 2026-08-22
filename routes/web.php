@@ -8,18 +8,15 @@ use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\MovimientoController;
 use App\Http\Controllers\InsumoHerramientaController;
 use App\Http\Controllers\OrdenTallerController;
+use App\Http\Controllers\DashboardController;
 
 Route::middleware(['auth'])->group(function () {
 
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
+Route::view('profile', 'profile')->middleware(['auth'])->name('profile');
 
 Route::resource('categorias', CategoriaController::class);
 Route::resource('ubicaciones', UbicacionController::class);
@@ -28,8 +25,8 @@ Route::resource('equipos', EquipoController::class);
 Route::get('/movimientos', [MovimientoController::class, 'index'])->name('movimientos.index');
 Route::resource('insumos-herramientas', InsumoHerramientaController::class);
 Route::post('/insumos-herramientas/{insumoHerramienta}/movimiento', [InsumoHerramientaController::class, 'registrarMovimiento'])->name('insumos-herramientas.movimiento');
-Route::resource('ordenes-taller', OrdenTallerController::class)
-    ->parameters(['ordenes-taller' => 'ordenTaller']);
+Route::resource('ordenes-taller', OrdenTallerController::class)->parameters(['ordenes-taller' => 'ordenTaller']);
+
 
 });
 require __DIR__.'/auth.php';

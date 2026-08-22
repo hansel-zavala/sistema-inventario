@@ -8,6 +8,7 @@ use App\Models\Ubicacion;
 use App\Models\Empleado;
 use App\Models\Movimiento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EquipoController extends Controller
 {
@@ -118,7 +119,7 @@ class EquipoController extends Controller
             'ubicacion_nueva_id' => $huboCambioUbicacion ? $equipo->ubicacion_id : null,
             'empleado_anterior_id' => $huboCambioEmpleado ? $empleadoAnteriorId : null,
             'empleado_nuevo_id' => $huboCambioEmpleado ? $equipo->empleado_id : null,
-            'usuario_id' => auth()->id(),
+            'usuario_id' => Auth::id(),
             'comentario' => $request->input('comentario_movimiento'),
         ]);
     }
@@ -129,7 +130,7 @@ class EquipoController extends Controller
 
     public function destroy(Equipo $equipo)
     {
-        $equipo->deleted_by = auth()->id();
+        $equipo->deleted_by = Auth::id();
         $equipo->save();
         $equipo->delete(); // soft delete
 
